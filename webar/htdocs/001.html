@@ -6,25 +6,29 @@
 	<title>WebAR</title>
 	<meta name="format-detection" content="telephone=no,address=no,email=no">
 	<link rel="stylesheet" href="assets/css/styles.css" media="all">
-	<script src="assets/js/libs.js"></script>
-	<!-- <script src="assets/js/aframe-ar.js"></script> -->
+	<script src="assets/js/aframe.js"></script>
+	<script src="assets/js/aframe-ar.js"></script>
+	<!-- <script src="assets/js/aframe-ar.min.js"></script> -->
+	<!-- <script src="assets/js/libs.min.js"></script> -->
+	<!-- <script src="assets/js/app.js"></script> -->
 </head>
 
 
 <body>
-	<a-scene embedded arjs="debugUIEnabled:false; sourceType: webcam;" vr-mode-ui="enabled: false">
+	<a-scene stats embedded arjs="debugUIEnabled:false; sourceType: webcam;" vr-mode-ui="enabled: false">
 
+		<!-- AR 3D Object -->
 		<a-assets>
-			<a-asset-item id="dog" src="assets/models/Dog.glb"></a-asset-item>
+			<a-asset-item id="AstronautMtl" src="assets/models/astronaut/Astronaut.mtl"></a-asset-item>
+			<a-asset-item id="AstronautObj" src="assets/models/astronaut/Astronaut.obj"></a-asset-item>
 		</a-assets>
 
-		<a-marker preset="custom" type="pattern" url="assets/marker/2018-iti-marker.patt">
-			<a-text value="Happy New Year!\nIntelligent Technology" position="0 0 1" align="center" rotation="-90 0 0" color="#DD4827"></a-text>
-			<a-entity gltf-model="#dog" play-all-model-animations="" position="0 0 0" rotation="0 0 0" scale="0.0025 0.001 0.001" visible="true">
-				<a-animation attribute="rotation" repeat="indefinite" direction="alternate" dur="500" from="0 0 0" to="10 0 0"></a-animation>
-			</a-entity>
+		<!-- AR Marker -->
+		<a-marker preset="custom" type="pattern" url="assets/marker/marker001.patt">
+			<a-obj-model src="#AstronautObj" mtl="#AstronautMtl" scale="0.005 0.005 0.005" position="0 0.5 0">
+				<a-animation attribute="rotation" to="0 360 0" dur="3000" easing="linear" repeat="indefinite"></a-animation>
+			</a-obj-model>
 		</a-marker>
-
 
 		<a-entity camera></a-entity>
 
