@@ -38,6 +38,7 @@ export default class Render {
 		if(this.options.isGui){
 			this.gui = new dat.GUI();
 			this.gui.commonFolder = this.gui.addFolder("common");
+			this.gui.wireFolder = this.gui.addFolder("wire");
 
 			if(!AMP.hasHash("guiopen")){
 				this.gui.close();
