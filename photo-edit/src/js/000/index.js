@@ -159,7 +159,9 @@ class Sketch {
 		render.gui.add(uniforms.uAmount, 'value', 10).min(0).max(100).name("Amount");
 		render.gui.add(uniforms.uAngle, 'value', 0).min(0).max(360).name("Angle");
 		render.gui.add(uniforms.uUpdateSpeed, 'value', 0).min(0).max(20).name("Update Speed").step(0.1);
-    render.gui.add(uniforms.uZamount, 'value').min(0).max(10).step(0.01).name("Z Amount");
+		if (is3D) {
+	    render.gui.add(uniforms.uZamount, 'value').min(0).max(10).step(0.01).name("Z Amount");
+		}
     // render.gui.add(uniforms.uCurlAmount, 'value').min(0).max(100).step(0.1).name("Curl Amount");
     // render.gui.add(uniforms.uRotationZ, 'value').min(2).max(180).name("Rotation Z");
 

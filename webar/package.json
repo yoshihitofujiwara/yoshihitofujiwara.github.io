@@ -31,6 +31,8 @@
   "dependencies": {
     "aframe": "^0.8.2",
     "aframe-ar": "^0.2.1-a",
-    "ink-javascript": "0.0.1"
+    "facefilter": "^1.0.0",
+    "ink-javascript": "0.0.1",
+    "three": "^0.93.0"
   }
 }

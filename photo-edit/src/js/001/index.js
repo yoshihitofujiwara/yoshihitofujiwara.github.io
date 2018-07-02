@@ -112,27 +112,23 @@ class Sketch {
 			uTime: { type: "f", value: 0.0 },
 			uTime2: { type: "f", value: 0.0 },
       uZamount    : { type: "f", value: 0},
+
+			uDotScreen: { type: "b", value: true },
+			uColor: { type: "b", value: true },
+			angle: { value: 0.0 },
+			scale: { value: 0.75 }
 		};
 
-		// let material = new THREE.ShaderMaterial({
-		// 	vertexShader: require("../../shader/sketches/sketch.vert"),
-		// 	fragmentShader: require("../../shader/sketches/rgbShift.frag"),
-		// 	uniforms: uniforms
-		// });
-
-		 let material =new THREE.MeshToonMaterial({　//toon materialを使うと簡単にトゥーンレンダリングっぽくなる。オプションは適当に。
-		 	map: texture,
-	    transparent:true,
-	    opacity:1,
-	    color: 0xffffff,
-	    shininess: 1
-	  });
+		let material = new THREE.ShaderMaterial({
+			vertexShader: require("../../shader/sketches/sketch.vert"),
+			fragmentShader: require("../../shader/filters/dotScreen.frag"),
+			uniforms: uniforms
+		});
 
 		// custom material
 		material.transparent = true;
 		material.blending = THREE.NormalBlending;
 		material.side = THREE.DoubleSide;
-
 
 		// dat gui
 		render.gui.open();
@@ -146,6 +142,12 @@ class Sketch {
 			}
 			uniforms.texture.value = textureObj[type];
 		});
+
+		render.gui.add(uniforms.uDotScreen, 'value').name("Dot Screen");
+		render.gui.add(uniforms.uColor, 'value').name("Color");
+		render.gui.add(uniforms.angle, "value", 0, AMP.TWO_PI).step(0.01).name("angle");
+		render.gui.add(uniforms.scale, "value", 0.1, 1).step(0.01).name("scale");
+
 
 
 		if (is3D) {
@@ -165,7 +167,10 @@ class Sketch {
 		params.widthSegments = 10;
 		params.heightSegments = 10;
 
-    render.gui.add(uniforms.uZamount, 'value').min(0).max(10).step(0.01).name("Z Amount");
+		if (is3D) {
+	    render.gui.add(uniforms.uZamount, 'value').min(0).max(10).step(0.01).name("Z Amount");
+		}
+
 		render.gui.add( params, 'widthSegments', 1, 300 ).step( 1 ).onChange( this.generateGeometry.bind(this));
 		render.gui.add( params, 'heightSegments', 1, 300 ).step( 1 ).onChange( this.generateGeometry.bind(this));
 
