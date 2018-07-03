@@ -4,4 +4,6 @@ window.dat = require("dat.gui").default;
 window.Stats = require("stats.js");
 window.THREE = require("three");
 require("three/examples/js/controls/OrbitControls.js");
+require("pixi.js");
+
 // window.TweenMax = require("gsap/TweenMax");

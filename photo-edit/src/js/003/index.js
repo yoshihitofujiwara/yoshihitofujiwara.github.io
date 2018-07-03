@@ -1,9 +1,12 @@
 import Render from '../utils/Render';
+import OffScreenRender from '../utils/OffScreenRender';
 
-require("three/examples/js/effects/OutlineEffect.js");
 
 
 let
+$offScreenCanvas,
+offScreenRender,
+offScreenTexture,
 render,
 loader,
 texture,
@@ -74,8 +77,13 @@ class Sketch {
 		render.event.on("update", () => {
 			uniforms.uTime.value = render.time;
 			uniforms.uTime2.value = render.time;
+
+			offScreenTexture.needsUpdate = true;
+			uniforms.mask.value = offScreenTexture;
 		});
+
 		render.resize(width, height);
+		offScreenRender.resize(width, height);
 		render.start();
 
 		render.event.on("inputImg", (_img) => {
@@ -94,6 +102,11 @@ class Sketch {
    * setup
    */
 	setup() {
+		// オフスクリーン
+		$offScreenCanvas = $("#canvas_offscreen");
+		offScreenRender = new OffScreenRender($offScreenCanvas);
+		offScreenTexture = new THREE.Texture(offScreenRender.app.renderer.view);
+
 		let webCameraTexture = new THREE.VideoTexture(webCamera.video);
 		webCameraTexture.minFilter = THREE.LinearFilter;
 		webCameraTexture.magFilter = THREE.LinearFilter;
@@ -108,21 +121,19 @@ class Sketch {
 
 		uniforms = {
 			texture: { type: "t", value: texture },
-			texture2: { type: "t", value: texture },
+			mask: { type: "t", value: offScreenTexture },
 			resolution: { type: "v2", value: new THREE.Vector2(1920, 1080) },
 			uTime: { type: "f", value: 0.0 },
 			uTime2: { type: "f", value: 0.0 },
       uZamount    : { type: "f", value: 0},
+			uIsMask    : { type: "b", value: false},
 
-      uBlendMode  : { type: "i", value: 1},
-      uOverLay  : { type: "b", value: false},
-      uAmount    : { type: "f", value: 1.0},
 			uColor: { type: "v4", value: new THREE.Vector4(1.0, 1.0, 1.0, 1.0) }
 		};
 
 		let material = new THREE.ShaderMaterial({
 			vertexShader: require("../../shader/sketches/sketch.vert"),
-			fragmentShader: require("../../shader/edit/002.frag"),
+			fragmentShader: require("../../shader/edit/003.frag"),
 			uniforms: uniforms
 		});
 
@@ -144,81 +155,10 @@ class Sketch {
 			uniforms.texture.value = textureObj[type];
 		});
 
-		params.BlendMode = "Add";
-		let blendList = [
-			"Add",
-			"Average",
-			"ColorBurn",
-			"ColorDodge",
-			"Darken",
-			"Difference",
-			"Exclusion",
-			"Glow",
-			"HardLight",
-			"HardMix",
-			"Lighten",
-			"LinearBurn",
-			"LinearDodge",
-			"LinearLight",
-			"Multiply",
-			"Negation",
-			"Normal",
-			"Overlay",
-			"Phoenix",
-			"PinLight",
-			"Reflect",
-			"Screen",
-			"SoftLight",
-			"Subtract",
-			"VividLight",
-		];
+		render.gui.add(uniforms.uIsMask, "value").name("Is Mask");
 
-		render.gui.add(params, 'BlendMode', blendList).name("BlendMode").onChange((data) => {
-			blendList.forEach((item, i) => {
-				if (item == data){
-					uniforms.uBlendMode.value = i + 1;
-					return;
-				}
-			})
-		});
-		render.gui.add(uniforms.uAmount, "value", 0, 1).step(0.01).name("Amount");
-
-		params.Color = [255, 255, 255];
-		render.gui.addColor(params, "Color").onChange((data) => {
-			uniforms.uColor.value = new THREE.Vector4(data[0] / 255, data[1] / 255, data[2] / 255, 1.0);
-		});
-
-		render.gui.add(uniforms.uOverLay, "value").name("FileOverLay");
-
-		// input file
-		let $file = $("#file2");
-		if ($file[0]) {
-			let fileReader = new FileReader(),
-				img = new Image();
-
-			$file.change(function () {
-				if (this.files && this.files[0] &&
-					this.files[0].type.indexOf("image/") > -1
-				) {
-					fileReader.readAsDataURL(this.files[0]);
-				}
-				$(this).val("");
-			});
-
-			fileReader.addEventListener('load', (event) => {
-				img.src = event.target.result;
-
-				loader.load(img.src, (_texture) => {
-					// img = _texture.image;
-					uniforms.texture2.value = _texture;
-				});
-			});
-
-			params.inputFile = function () {
-				$file.click();
-			}
-			render.gui.add(params, "inputFile");
-		}
+		params.Color = [0, 0, 0];
+		render.gui.addColor(params, "Color");
 
 
 		if (is3D) {
@@ -239,7 +179,6 @@ class Sketch {
 		params.widthSegments = 10;
 		params.heightSegments = 10;
 
-
 		render.gui.wireFolder.add( params, 'widthSegments', 1, 300 ).step( 1 ).onChange( this.generateGeometry.bind(this));
 		render.gui.wireFolder.add( params, 'heightSegments', 1, 300 ).step( 1 ).onChange( this.generateGeometry.bind(this));
 
@@ -249,10 +188,39 @@ class Sketch {
 
 		render.scene.add(group);
 
+
+		let mask = new PIXI.Graphics();
+		mask.beginFill(0xffffff);
+		mask.drawCircle(300, 0, 0);
+		mask.endFill();
+		offScreenRender.app.stage.addChild(mask);
+
+
+
+
+
+
+
 		// render
 		this.renderStart();
 		this.generateGeometry();
+
+
+		// this.__hoge();
 	}
+
+
+	// __hoge(){
+	// 	// offScene
+	// 	var geometry = new THREE.CircleGeometry(1, 90);
+	// 	var material = new THREE.MeshBasicMaterial({ color: 0xffff00 });
+	// 	var circle = new THREE.Mesh(geometry, material);
+
+	// 	// console.log(circle);
+
+	// 	circle.scale.set(1.0 * 0.1, width / height * 0.1, 0.0);
+	// 	offScene.add(circle);
+	// }
 
 
 	/**

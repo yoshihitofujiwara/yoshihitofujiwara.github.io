@@ -66,7 +66,8 @@ module.exports = {
     // "libs": `${JS}libs/index.js`,
     // "000": `${JS}/000/index.js`,
     // "001": `${JS}/001/index.js`,
-    "002": `${JS}/002/index.js`,
+    // "002": `${JS}/002/index.js`,
+    "003": `${JS}/003/index.js`,
   },
 
   output: {

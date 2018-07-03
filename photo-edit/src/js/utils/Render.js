@@ -92,8 +92,8 @@ export default class Render {
 			preserveDrawingBuffer: true
 		});
 		this.renderer.setClearColor(0x000000);
-		this.renderer.setPixelRatio(window.devicePixelRatio);
-		// this.renderer.setPixelRatio(1);
+		// this.renderer.setPixelRatio(window.devicePixelRatio);
+		this.renderer.setPixelRatio(1);
 		// this.renderer.setSize(this.width, this.height);
 		this.scene = new THREE.Scene();
 

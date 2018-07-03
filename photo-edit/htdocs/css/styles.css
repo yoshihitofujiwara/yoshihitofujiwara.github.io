@@ -106,16 +106,30 @@ body{
 #webcamera,
 #file{
   position: absolute;
-  top: -10000px;
+  top: -2000px;
   left: 0;
 }
+
 #canvas_container,
 #canvas{
   position: relative;
 /*   width: 100%;
   height: 100%; */
 }
+#canvas_container{
+	z-index: 10;
+}
 
+.dg.ac{
+	z-index: 9999 !important;
+}
 
-
+	#canvas_offscreen{
+		position: absolute;
+		top: 0;
+		left: 0;
+		/* z-index: 100; */
+	/* background: #000; */
+	/* opacity: .5; */
+	}
 

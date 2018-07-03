@@ -8,6 +8,7 @@ precision mediump float;
 varying vec2 vUv;
 
 uniform sampler2D texture;
+uniform sampler2D texture2;
 uniform float uTime;
 uniform vec2 resolution;
 
@@ -51,32 +52,31 @@ uniform bool uOverLay;
 
 
 
-
-
 //==========================================================================
 // @main
 //==========================================================================
 void main() {
 
-	vec4 fgColor = texture2D( texture, vUv );
+	vec4 bgColor = texture2D( texture, vUv );
 
-	vec4 bgColor = vec4(1.0);
+	vec4 fgColor = vec4(1.0);
 	if(uOverLay){
-		bgColor = texture2D( texture, vUv );
+		fgColor = texture2D( texture2, vUv );
 	} else {
-		bgColor = vec4(uColor);
+		fgColor = vec4(uColor);
 	}
 
 	vec3 color = vec3(0.0);
 
 	if( uBlendMode == 1 ){
 		color = blendAdd(bgColor.rgb, fgColor.rgb, uAmount);
-// }else if( uBlendMode == 2 ){
-	// color = blendAverage(bgColor.rgb, fgColor.rgb, uAmount);
-	}else if( uBlendMode == 3 ){
+	}else if( uBlendMode == 2 ){
+		color = blendAverage(bgColor.rgb, fgColor.rgb, uAmount);
+	}
+	if( uBlendMode == 3 ){
 		color = blendColorBurn(bgColor.rgb, fgColor.rgb, uAmount);
-// }else if( uBlendMode == 4 ){
-	// color = blendColorDodge(bgColor.rgb, fgColor.rgb, uAmount);
+	}else if( uBlendMode == 4 ){
+		color = blendColorDodge(bgColor.rgb, fgColor.rgb, uAmount);
 	}else if( uBlendMode == 5 ){
 		color = blendDarken(bgColor.rgb, fgColor.rgb, uAmount);
 	}else if( uBlendMode == 6 ){
