@@ -125,8 +125,8 @@ class Sketch {
 			resolution: { type: "v2", value: new THREE.Vector2(1920, 1080) },
 			uTime: { type: "f", value: 0.0 },
 			uTime2: { type: "f", value: 0.0 },
-      uZamount    : { type: "f", value: 0},
-			uIsMask    : { type: "b", value: false},
+      uZamount: { type: "f", value: 0},
+			uIsMask: { type: "b", value: false},
 
 			uColor: { type: "v4", value: new THREE.Vector4(1.0, 1.0, 1.0, 1.0) }
 		};
@@ -191,7 +191,7 @@ class Sketch {
 
 		let mask = new PIXI.Graphics();
 		mask.beginFill(0xffffff);
-		mask.drawCircle(300, 0, 0);
+		mask.drawCircle(300, 110, 80);
 		mask.endFill();
 		offScreenRender.app.stage.addChild(mask);
 
