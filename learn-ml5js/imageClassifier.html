@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb#">
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>imageClassifier | ML5js</title>
+	<link rel="stylesheet" href="assets/css/styles.css" media="all">
+</head>
+
+<body>
+<input id="file" type="file">
+<h1>Image classification using MobileNet</h1>
+<p>The MobileNet model labeled this as
+	<span id="result">...</span> with a confidence of
+	<span id="probability">...</span>
+</p>
+
+<img src="assets/img/201309211507377b8.jpg" crossorigin="anonymous" id="image" width="400">
+
+<script src="assets/js/libs.js"></script>
+<script>
+
+// function setup(){
+// 	setTimeout(() => {
+// 		console.log(p5, createCapture);
+// 	}, 100);
+// }
+
+	// imageClassifier()
+	// https://ml5js.org/docs/ImageClassifier
+
+
+	// The image we want to classify
+	const image = document.getElementById('image');
+	// The result tag in the HTML
+	const result = document.getElementById('result');
+	// The probability tag in the HTML
+	const probability = document.getElementById('probability');
+
+	// Initialize the Image Classifier method with MobileNet
+	const classifier = ml5.imageClassifier('MobileNet');
+	console.log(classifier);
+
+	const gui = new dat.GUI();
+	gui.params = {};
+
+	const $file = $("#file"),
+	fileReader = new FileReader();
+
+	$file.change(function () {
+		if (this.files && this.files[0] &&
+			this.files[0].type.indexOf("image/") > -1
+		) {
+			fileReader.readAsDataURL(this.files[0]);
+		}
+		$(this).val("");
+	});
+
+	fileReader.addEventListener('load', (event) => {
+		image.src = event.target.result;
+		updateImage();
+	});
+
+	gui.params.inputFile = function () {
+		$file.click();
+	}
+	gui.add(gui.params, "inputFile");
+
+
+	image.addEventListener("load", function () {
+		updateImage();
+	}, false);
+
+
+	function updateImage(){
+		classifier.predict(image, function (results) {
+			console.log(results);
+			result.innerText = results[0].className;
+			probability.innerText = results[0].probability.toFixed(4);
+		});
+	}
+
+</script>
+<!-- <script src="assets/js/scripts.js"></script> -->
+</body>
+</html>
