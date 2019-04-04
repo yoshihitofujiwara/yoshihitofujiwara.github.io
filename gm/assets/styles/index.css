@@ -1,0 +1,25 @@
+#AMP_DEBUG_TEXT { color: #fff !important; }
+
+#page { padding: 1%; padding-bottom: 200px; }
+#page h1 { font-size: 36px; font-size: 3.6rem; }
+#page h2 { font-size: 30px; font-size: 3rem; }
+#page h3 { font-size: 28px; font-size: 2.8rem; }
+#page section + section { margin-top: 100px; }
+#page ul { margin-left: 1.6em; list-style-type: disc; }
+#page button { border: 1px solid; }
+#page button.disable { pointer-events: none; opacity: 0.2; }
+#page .is_none { display: none; }
+
+#main .mapContainer { width: 100%; height: 500px; }
+#main .mapContainer .info { font-size: 14px; font-size: 1.4rem; }
+#main .mapContainer .info h3 { font-size: 18px; font-size: 1.8rem; }
+#main .mapContainer .info dl dt, #main .mapContainer .info dl dd { display: inline-block; }
+#main .mapContainer .info .mt { margin-top: 20px; }
+#main .mapContainer .info .mb { margin-bottom: 20px; }
+
+#checkIn { position: fixed; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.4); display: -webkit-box; display: -ms-flexbox; display: flex; -webkit-box-pack: center; -ms-flex-pack: center; justify-content: center; -webkit-box-align: center; -ms-flex-align: center; align-items: center; opacity: 0; visibility: hidden; }
+#checkIn.open { opacity: 1; visibility: visible; }
+#checkIn .box { position: relative; background: #fff; border-radius: 10px; padding: 50px; text-align: center; }
+#checkIn .box h2 { margin-bottom: 10px; }
+#checkIn .box .text1 { margin-bottom: 10px; }
+#checkIn .box .close { position: absolute; right: 10px; top: 10px; border: 0px; }
