@@ -1,0 +1,23 @@
+@charset "UTF-8";
+/* body{} */
+
+#links{
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	overflow: hidden;
+	position: fixed;
+	bottom: 15px;
+	right: 25px;
+}
+#links li{
+	float: left;
+	margin-left: 12px;
+}
+#links img{
+	/* opacity: .8; */
+	transition: opacity 400ms cubic-bezier(0.39, 0.575, 0.565, 1);
+}
+#links a:hover img{
+	opacity: .6;
+}
