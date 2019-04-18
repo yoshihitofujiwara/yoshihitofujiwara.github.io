@@ -1,6 +1,9 @@
 @charset "UTF-8";
 /* body{} */
-
+@import url(http://fonts.googleapis.com/earlyaccess/notosansjp.css);
+body{
+	font-family: 'Noto Sans JP', sans-serif;
+}
 #links{
 	margin: 0;
 	padding: 0;
