@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb#">
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>FaceMesh | Tensorflow</title>
+	<link rel="stylesheet" href="assets/css/common.css" media="all">
+	<style>
+		#canvas{transform: scaleX(-1);}
+	</style>
+</head>
+
+
+<body>
+	<div id="page">
+		<video id="video" playsinline muted></video>
+		<canvas id="canvas"></canvas>
+		<div id="scatter-gl-container"></div>
+	</div>
+
+	<script src="assets/js/scripts.js"></script>
+	<script>
+		faceMesh();
+	</script>
+</body>
+
+</html>

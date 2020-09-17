@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb#">
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<title>BodyPix</title>
+	<link rel="stylesheet" href="assets/css/common.css" media="all">
+</head>
+
+
+<body id="bodypix2">
+
+
+	<div class="wrapper">
+		<p class="file"><input type="file" accept="image/*"></p>
+
+		<dl>
+			<dt>Before</dt>
+			<dd><canvas id="before_canvas" width="960" height="540"></canvas></dd>
+		</dl>
+		<dl>
+			<dt>bodypix</dt>
+			<dd><canvas id="bodypix_canvas" width="960" height="540"></canvas></dd>
+		</dl>
+		<dl>
+			<dt>After</dt>
+			<dd><canvas id="after_canvas" width="960" height="540"></canvas></dd>
+		</dl>
+	</div>
+
+
+	<script src="assets/js/scripts.js"></script>
+	<script>
+		bodyPix2();
+	</script>
+</body>
+
+</html>
